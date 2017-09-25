@@ -18,7 +18,7 @@ public class JDBCHelper {
 	private static PreparedStatement preparedStatement = null;
 	private static CallableStatement  callableStatement = null;
 	
-	public static List queryList(String sql) throws SQLException {
+	public static List<Map<String, Object>> queryList(String sql) throws SQLException {
 		ResultSet rs = null;
 		try {
 			getPreparedStatement(sql);
@@ -251,12 +251,11 @@ public class JDBCHelper {
 		callableStatement = con.prepareCall(procedureSql);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static List resultToListMap(ResultSet rs) throws SQLException {
-		List list = new ArrayList();
+	private static List<Map<String, Object>> resultToListMap(ResultSet rs) throws SQLException {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		while(rs.next()) {
 			ResultSetMetaData md = rs.getMetaData();
-			Map map = new HashMap();
+			Map<String, Object> map = new HashMap<String, Object>();
 			for(int i = 1; i < md.getColumnCount(); i++) {
 				map.put(md.getColumnLabel(i), rs.getObject(i));
 			}
